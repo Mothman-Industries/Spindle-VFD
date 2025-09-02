@@ -61,15 +61,15 @@ uint8_t pid_dutyCycle_calculate(void)
     { 
       int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
 
-      if(error_actualMinusGoal_RPM > 0) { summedPID--; }
-      else                              { summedPID++; }
+      //if(error_actualMinusGoal_RPM > 0) { summedPID--; }
+      //else                              { summedPID++; }
 
-      //int16_t TermPID_proportional = pid_calculate_proportional(speedError);
-      //int16_t TermPID_integral     = pid_calculate_integral    (speedError);
-      //int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
+      int16_t TermPID_proportional = pid_calculate_proportional(error_actualMinusGoal_RPM);
+      int16_t TermPID_integral     = pid_calculate_integral    (error_actualMinusGoal_RPM);
+      int16_t TermPID_derivative   = pid_calculate_derivative  (error_actualMinusGoal_RPM);
 
       // Duty Cycle calculation
-      //summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
+      summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
       //summedPID = error_actualRPM_minus_goalRPM;
 
       // Bound max/min PWM value
